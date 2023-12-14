@@ -6,11 +6,35 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= stylesheet_link_tag "https://cdn.simplecss.org/simple.min.css" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <% turbo_refreshes_with method: :morph, scroll: :preserve %>
+
+    <%= yield :head %> <%# used by Turbo Drive helpers %>
   </head>
 
   <body>
-    <%= yield %>
+    <%= turbo_stream_from Current.order %>
+
+    <% if flash.notice %>
+      <p class="notice">
+        <%= flash.notice %>
+      </p>
+    <% end %>
+
+    <header>
+      <nav>
+        <ul>
+          <li><%= link_to "Products", root_path %></li>
+          <li><%= link_to "Cart (#{Current.order.total_item_count})", cart_path %></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

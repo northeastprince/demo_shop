@@ -1,0 +1,36 @@
+<table>
+  <% Current.order.items.each do |item| %>
+    <tr id="<%= dom_id(item) %>">
+      <td><%= item.name %></td>
+      <td><%= monetarily_format item.price %></td>
+
+      <td>
+        <%= link_to "➖", order_item_path(item, "item[quantity]": item.quantity - 1),
+                    "data-turbo-method": "patch" %>
+
+        x <%= item.quantity %>
+
+        <%= link_to "➕", order_item_path(item, "item[quantity]": item.quantity + 1),
+                    "data-turbo-method": "patch" %>
+      </td>
+
+      <td>
+        <%= link_to "🗑️", order_item_path(item), "data-turbo-method": "delete" %>
+      </td>
+    </tr>
+  <% end %>
+
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Subtotal</td>
+    <td><%= monetarily_format Current.order.total_price %></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>

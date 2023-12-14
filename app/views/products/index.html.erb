@@ -1,0 +1,10 @@
+<h1>Products</h1>
+
+<% @products.each do |product| %>
+  <article id="<%= dom_id(product) %>">
+    <h2><%= product.name %></h2>
+    <h3><%= monetarily_format product.price %></h3>
+
+    <%= button_to "Add to cart", order_items_path, params: {product_id: product.id} %>
+  </article>
+<% end %>
